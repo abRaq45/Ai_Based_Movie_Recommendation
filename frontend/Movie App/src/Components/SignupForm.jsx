@@ -10,7 +10,7 @@ const SignupForm = ({ onSignupSuccess }) => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/api/users/signup", {
+      const response = await axios.post("http://ec2-13-126-126-15.ap-south-1.compute.amazonaws.com:8080/api/users/signup", {
         username,
         email,
         password,

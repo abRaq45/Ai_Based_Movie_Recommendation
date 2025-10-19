@@ -22,7 +22,7 @@ const SignupPage = () => {
     setLoading(true);
 
     try {
-      await axios.post("http://localhost:8080/api/users/signup", { username, password });
+      await axios.post("http://ec2-13-126-126-15.ap-south-1.compute.amazonaws.com:8080/api/users/signup", { username, password });
       setLoading(false);
       navigate("/login"); // redirect to login after signup
     } catch (err) {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import MovieCard from "../components/MovieCard";
+import MovieCard from "../Components/MovieCard";
 
 const RecommendationsPage = ({ user }) => {
   const [recommendedMovies, setRecommendedMovies] = useState([]);
@@ -18,14 +18,14 @@ const RecommendationsPage = ({ user }) => {
       try {
         // 1. Get recommendation movie titles
         const recRes = await axios.get(
-          `http://localhost:8080/api/users/${user.userId}/recommendations`,
+          `http://ec2-13-126-126-15.ap-south-1.compute.amazonaws.com:8080/api/users/${user.userId}/recommendations`,
           { headers: { Authorization: `Bearer ${user.token}` } }
         );
         const recommendedTitles = recRes.data.recommendations || [];
 
         // 2. Fetch movie details for each recommended title
         const movieDetailsPromises = recommendedTitles.map(title =>
-          axios.get(`http://localhost:8080/api/movies/title/${encodeURIComponent(title)}`)
+          axios.get(`http://ec2-13-126-126-15.ap-south-1.compute.amazonaws.com:8080/api/movies/title/${encodeURIComponent(title)}`)
             .then(res => res.data)
             .catch(() => null) // ignore fetch errors for individual movies
         );

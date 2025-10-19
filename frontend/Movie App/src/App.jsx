@@ -11,6 +11,7 @@ import RecommendationsPage from "./Pages/RecommendationsPage"; // Import the new
 function App() {
   const [user, setUser] = useState(null);
   const [genre, setGenre] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -23,11 +24,23 @@ function App() {
 
   return (
     <Router>
-      <Navbar user={user} setUser={setUser} setGenre={setGenre} />
+      <Navbar
+        user={user}
+        setUser={setUser}
+        setGenre={setGenre}
+        setSearch={setSearchQuery}  // Pass search setter here
+      />
       <Routes>
         <Route
           path="/"
-          element={<HomePage user={user} setUser={setUser} selectedGenre={genre} />}
+          element={
+            <HomePage
+              user={user}
+              setUser={setUser}
+              selectedGenre={genre}
+              searchQuery={searchQuery}  // Pass current search query here
+            />
+          }
         />
         <Route
           path="/watchlist"
