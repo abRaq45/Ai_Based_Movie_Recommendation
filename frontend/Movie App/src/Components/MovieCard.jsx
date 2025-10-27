@@ -32,7 +32,7 @@ const MovieCard = ({
     try {
       if (isInWatchlist) {
         await axios.delete(
-          `http://ec2-13-126-126-15.ap-south-1.compute.amazonaws.com:8080/api/users/${userId}/watchlist/${movie._id || movie.id}`,
+          `8080/api/users/${userId}/watchlist/${movie._id || movie.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setIsInWatchlist(false);

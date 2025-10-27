@@ -20,9 +20,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(
         origins = {
-                "http://localhost:5173",
-                "http://ec2-13-126-126-15.ap-south-1.compute.amazonaws.com:5173"
-        },
+                "http://localhost:5173"},
         allowCredentials = "true")
 @RestController
 @RequestMapping("/api/users")

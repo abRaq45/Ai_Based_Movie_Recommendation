@@ -15,7 +15,7 @@ const WatchlistPage = ({ user }) => {
       }
       try {
         const res = await axios.get(
-          `http://ec2-13-126-126-15.ap-south-1.compute.amazonaws.com:8080/api/users/${user.userId}/watchlist`,
+          `8080/api/users/${user.userId}/watchlist`,
           {
             headers: { Authorization: `Bearer ${user.token}` },
           }

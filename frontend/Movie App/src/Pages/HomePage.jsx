@@ -8,7 +8,7 @@ const HomePage = ({ user, setUser, selectedGenre, searchQuery }) => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const res = await axios.get("http://ec2-13-126-126-15.ap-south-1.compute.amazonaws.com:8080/api/movies");
+        const res = await axios.get("8080/api/movies");
         setMovies(res.data);
       } catch (err) {
         console.error("Failed to fetch movies:", err);

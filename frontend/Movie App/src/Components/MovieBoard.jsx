@@ -12,7 +12,7 @@ const MovieBoard = ({ movies = [], selectedGenre, searchQuery = "", user }) => {
       if (!userId || !token) return;
 
       try {
-        const response = await axios.get(`http://ec2-13-126-126-15.ap-south-1.compute.amazonaws.com:8080/api/users/${userId}`, {
+        const response = await axios.get(`8080/api/users/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
