@@ -1,9 +1,8 @@
 # ---- Stage 1: Build React frontend ----
 FROM node:22 AS frontend-build
 WORKDIR /frontend
-COPY frontend/package*.json ./
+COPY frontend ./
 RUN npm install
-COPY frontend/ ./
 RUN npm run build
 
 # ---- Stage 2: Build Spring Boot backend ----
@@ -20,7 +19,7 @@ WORKDIR /app
 # Copy backend JAR
 COPY --from=backend-build /app/target/*.jar app.jar
 
-# Copy frontend build into Spring Boot static folder (adjust as needed)
+# Copy frontend build into Spring Boot static folder (adjust if needed)
 COPY --from=frontend-build /frontend/build /app/static/
 
 # Set entrypoint to run the JAR
