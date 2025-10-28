@@ -1,8 +1,7 @@
 # ---- Stage 1: Build React frontend ----
 FROM node:22 AS frontend-build
 WORKDIR /frontend
-# Copy the nested 'Movie App' frontend directory content into container
-COPY frontend/Movie\ App ./
+COPY frontend/movie-app ./
 RUN npm install
 RUN npm run build
 
