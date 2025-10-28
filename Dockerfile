@@ -19,8 +19,8 @@ WORKDIR /app
 # Copy backend JAR
 COPY --from=backend-build /app/target/*.jar app.jar
 
-# Copy frontend build into Spring Boot static folder (adjust if needed)
-COPY --from=frontend-build /frontend/build /app/static/
+# Copy frontend build output into Spring Boot static folder
+COPY --from=frontend-build /frontend/dist /app/static/
 
 # Set entrypoint to run the JAR
 ENTRYPOINT ["java", "-jar", "app.jar"]
