@@ -34,8 +34,8 @@ public class SecurityConfig {
                 .cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests()
-                // Allow signup & login
-                .requestMatchers("/api/users/signup", "/api/users/login").permitAll()
+                // Allow root, signup & login
+                .requestMatchers("/", "/api/users/signup", "/api/users/login").permitAll()
                 // Movies are public
                 .requestMatchers("/api/movies/**").permitAll()
                 // User endpoints require authentication
@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-// JWT filter
+        // JWT filter
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
