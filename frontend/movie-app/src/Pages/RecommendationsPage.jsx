@@ -7,6 +7,8 @@ const RecommendationsPage = ({ user }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+
   useEffect(() => {
     const fetchRecommendations = async () => {
       if (!user || !user.token || !user.userId) {
@@ -18,14 +20,14 @@ const RecommendationsPage = ({ user }) => {
       try {
         // 1. Get recommendation movie titles
         const recRes = await axios.get(
-          `8080/api/users/${user.userId}/recommendations`,
+          `${API_BASE_URL}/api/users/${user.userId}/recommendations`,
           { headers: { Authorization: `Bearer ${user.token}` } }
         );
         const recommendedTitles = recRes.data.recommendations || [];
 
         // 2. Fetch movie details for each recommended title
         const movieDetailsPromises = recommendedTitles.map(title =>
-          axios.get(`8080/api/movies/title/${encodeURIComponent(title)}`)
+          axios.get(`${API_BASE_URL}/api/movies/title/${encodeURIComponent(title)}`)
             .then(res => res.data)
             .catch(() => null) // ignore fetch errors for individual movies
         );

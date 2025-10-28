@@ -11,6 +11,8 @@ const MovieCard = ({
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+
   const [isInWatchlist, setIsInWatchlist] = useState(
     typeof propIsInWatchlist === "boolean"
       ? propIsInWatchlist
@@ -32,7 +34,7 @@ const MovieCard = ({
     try {
       if (isInWatchlist) {
         await axios.delete(
-          `8080/api/users/${userId}/watchlist/${movie._id || movie.id}`,
+          `${API_BASE_URL}/api/users/${userId}/watchlist/${movie._id || movie.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setIsInWatchlist(false);
@@ -41,7 +43,7 @@ const MovieCard = ({
         );
       } else {
         await axios.post(
-          `http://ec2-13-126-126-15.ap-south-1.compute.amazonaws.com:8080/api/users/${userId}/watchlist/${movie._id || movie.id}`,
+          `${API_BASE_URL}/api/users/${userId}/watchlist/${movie._id || movie.id}`,
           {},
           { headers: { Authorization: `Bearer ${token}` } }
         );

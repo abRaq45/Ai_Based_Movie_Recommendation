@@ -5,17 +5,19 @@ import axios from "axios";
 const HomePage = ({ user, setUser, selectedGenre, searchQuery }) => {
   const [movies, setMovies] = useState([]);
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const res = await axios.get("8080/api/movies");
+        const res = await axios.get(`${API_BASE_URL}/api/movies`);
         setMovies(res.data);
       } catch (err) {
         console.error("Failed to fetch movies:", err);
       }
     };
     fetchMovies();
-  }, []);
+  }, [API_BASE_URL]);
 
   // Filter movies based on searchQuery (case-insensitive)
   const filteredMovies = movies.filter((movie) => {

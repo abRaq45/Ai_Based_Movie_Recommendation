@@ -9,13 +9,15 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      const res = await axios.post("8080/api/users/login", {
+      const res = await axios.post(`${API_BASE_URL}/api/users/login`, {
         username,
         password,
       });
