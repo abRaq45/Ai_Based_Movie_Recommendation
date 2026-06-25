@@ -10,8 +10,6 @@ const SignupPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -24,7 +22,7 @@ const SignupPage = () => {
     setLoading(true);
 
     try {
-      await axios.post(`${API_BASE_URL}/api/users/signup`, { username, password });
+      await axios.post("http://localhost:8080/api/users/login", { username, password });
       setLoading(false);
       navigate("/login"); // redirect to login after signup
     } catch (err) {

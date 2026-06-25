@@ -7,16 +7,17 @@ const MovieBoard = ({ movies = [], selectedGenre, searchQuery = "", user }) => {
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
 
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
-
   useEffect(() => {
     const fetchWatchlist = async () => {
       if (!userId || !token) return;
 
       try {
-        const response = await axios.get(`${API_BASE_URL}/api/users/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `http://localhost:8080/api/users/${userId}`, // ✅ fixed URL
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
         const watchlist = Array.isArray(response.data.watchlist)
           ? response.data.watchlist.map((id) => id)

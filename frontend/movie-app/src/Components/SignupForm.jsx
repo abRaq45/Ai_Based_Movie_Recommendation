@@ -7,12 +7,10 @@ const SignupForm = ({ onSignupSuccess }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
-
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/users/signup`, {
+      const response = await axios.post("http://localhost:8080/api/users/signup", { // ✅ fixed URL
         username,
         email,
         password,
@@ -22,6 +20,7 @@ const SignupForm = ({ onSignupSuccess }) => {
       onSignupSuccess(); // Callback to parent (redirect or show login form)
 
     } catch (err) {
+      console.error("Signup failed:", err.response?.data || err.message);
       setError(err.response?.data?.error || "Signup failed");
     }
   };

@@ -9,27 +9,25 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/users/login`, {
+      const res = await axios.post("http://localhost:8080/api/users/login", {
         username,
         password,
       });
 
-      // save JWT and user info
+      // Save JWT and user info in localStorage
       const { token, userId, username: uname } = res.data;
       localStorage.setItem("token", token);
       localStorage.setItem("userId", userId);
       localStorage.setItem("username", uname);
 
       setLoading(false);
-      navigate("/"); // redirect to home after login
+      navigate("/"); // Redirect to home after login
     } catch (err) {
       console.error("Login failed:", err.response?.data || err.message);
       setError(err.response?.data?.error || "Login failed");
@@ -38,11 +36,18 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh", background: "#141E30" }}>
-      <form className="p-4 bg-dark text-light rounded shadow-lg" onSubmit={handleSubmit} style={{ width: "400px" }}>
+    <div
+      className="d-flex justify-content-center align-items-center"
+      style={{ minHeight: "100vh", background: "#141E30" }}
+    >
+      <form
+        className="p-4 bg-dark text-light rounded shadow-lg"
+        onSubmit={handleSubmit}
+        style={{ width: "400px" }}
+      >
         <h2 className="mb-4 text-center text-danger">Login</h2>
 
-        {error && <p className="text-danger">{error}</p>}
+        {error && <p className="text-danger text-center">{error}</p>}
 
         <div className="mb-3">
           <label className="form-label">Username</label>
@@ -73,7 +78,14 @@ const LoginPage = () => {
         </button>
 
         <p className="mt-3 text-center">
-          Don't have an account? <span className="text-info" style={{ cursor: "pointer" }} onClick={() => navigate("/signup")}>Signup</span>
+          Don't have an account?{" "}
+          <span
+            className="text-info"
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate("/signup")}
+          >
+            Signup
+          </span>
         </p>
       </form>
     </div>

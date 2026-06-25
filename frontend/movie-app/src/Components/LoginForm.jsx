@@ -6,14 +6,12 @@ const LoginForm = ({ setUser }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/users/login`, {
+      const res = await axios.post("http://localhost:8080/api/users/login", { // ✅ fixed URL
         username,
         password,
       });

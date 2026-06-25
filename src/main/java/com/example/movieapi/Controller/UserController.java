@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(
         origins = {
                 "http://localhost:5173",
-                "https://moviesforuuu.onrender.com"},
+                },
         allowCredentials = "true")
 @RestController
 @RequestMapping("/api/users")

@@ -6,8 +6,6 @@ const WatchlistPage = ({ user }) => {
   const [watchlist, setWatchlist] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
-
   useEffect(() => {
     const fetchWatchlist = async () => {
       if (!user || !user.token || !user.userId) {
@@ -17,7 +15,7 @@ const WatchlistPage = ({ user }) => {
       }
       try {
         const res = await axios.get(
-          `${API_BASE_URL}/api/users/${user.userId}/watchlist`,
+          `http://localhost:8080/api/users/${user.userId}/watchlist`, // ✅ Added http://localhost:8080
           {
             headers: { Authorization: `Bearer ${user.token}` },
           }
@@ -33,7 +31,8 @@ const WatchlistPage = ({ user }) => {
     fetchWatchlist();
   }, [user]);
 
-  if (loading) return <h2 className="text-center mt-5 text-light">Loading...</h2>;
+  if (loading)
+    return <h2 className="text-center mt-5 text-light">Loading...</h2>;
 
   return (
     <div style={{ background: "linear-gradient(to right, #141E30, #243B55)", minHeight: "100vh" }}>

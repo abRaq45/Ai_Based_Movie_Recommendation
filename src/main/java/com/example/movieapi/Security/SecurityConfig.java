@@ -2,6 +2,7 @@ package com.example.movieapi.Security;
 
 import com.example.movieapi.Service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 
 import java.util.Arrays;
 
@@ -34,35 +36,47 @@ public class SecurityConfig {
                 .cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests()
-                // Allow root, signup & login
+                // Permit root, signup & login without authentication
                 .requestMatchers("/", "/api/users/signup", "/api/users/login").permitAll()
-                // Movies are public
+                // Permit all movie endpoints to public
                 .requestMatchers("/api/movies/**").permitAll()
-                // User endpoints require authentication
+                // All other /api/users/** endpoints require authentication
                 .requestMatchers("/api/users/**").authenticated()
+                // Any other requests authenticated
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        // JWT filter
+        // Add JWT Filter before UsernamePasswordAuthenticationFilter
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
+    }
+
+    // Register ForwardedHeaderFilter to handle proxy headers like X-Forwarded-Proto
+    @Bean
+    public FilterRegistrationBean<ForwardedHeaderFilter> forwardedHeaderFilter() {
+        FilterRegistrationBean<ForwardedHeaderFilter> filterRegBean = new FilterRegistrationBean<>();
+        filterRegBean.setFilter(new ForwardedHeaderFilter());
+        filterRegBean.setOrder(0);
+        return filterRegBean;
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+
         configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:5173",
-                "https://moviesforuuu.onrender.com"
-        )); // allow both frontend URLs
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
+                "http://localhost:5173"
+        )); // Allow these frontend origins
+
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // apply to all endpoints
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
